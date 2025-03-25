@@ -1,25 +1,115 @@
 {% extends "base.html" %}
 
-{% block title%}{{question.title}}{%endblock%}
+{% block title %}{{ question.title }}{% endblock %}
 
-{% block head%}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/detail.css')}}">
-{% endblock%}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/detail.css') }}">
+    <style>
+        /* 全局字体优化 */
+        body {
+            font-family: Arial, sans-serif; /* 使用无衬线字体 */
+            color: #ffffff; /* 设置全局字体颜色为白色 */
+            background-color: #000000; /* 设置全局背景颜色为黑色 */
+        }
 
-{%block body%}
+        /* 表单和文本框的字体优化 */
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.2); /* 半透明的白色背景 */
+            border-color: rgba(255, 255, 255, 0.5); /* 半透明的白色边框 */
+            color: #ffffff; /* 文字颜色为白色 */
+            font-size: 14px; /* 增加字体大小 */
+            line-height: 1.5; /* 增加行高 */
+        }
+
+        /* 表单标签的字体优化 */
+        label {
+            color: #ffffff; /* 文字颜色为白色 */
+            font-size: 14px; /* 增加字体大小 */
+        }
+
+        /* 按钮的字体优化 */
+        .btn {
+            background-color: #007bff; /* 按钮背景颜色 */
+            border-color: #007bff; /* 按钮边框颜色 */
+            color: #ffffff; /* 文字颜色为白色 */
+            font-size: 14px; /* 增加字体大小 */
+            line-height: 1.5; /* 增加行高 */
+        }
+
+        .btn:hover {
+            background-color: #0056b3; /* 按钮悬停背景颜色 */
+            border-color: #0056b3; /* 按钮悬停边框颜色 */
+        }
+
+        /* 页面内容的背景和边框 */
+        .col-10 {
+            background-color: rgba(255, 255, 255, 0.1); /* 半透明的白色背景 */
+            border: 1px solid rgba(255, 255, 255, 0.5); /* 半透明的白色边框 */
+            border-radius: 5px; /* 圆角边框 */
+            padding: 20px;
+        }
+
+        /* 页面标题和信息的字体优化 */
+        .page-title {
+            color: #ffffff; /* 文字颜色为白色 */
+            font-size: 24px; /* 增加字体大小 */
+        }
+
+        .question-info {
+            color: rgba(255, 255, 255, 0.7); /* 半透明的白色 */
+            font-size: 12px; /* 增加字体大小 */
+        }
+
+        /* 评论区域的字体优化 */
+        .comment-group-title {
+            color: #ffffff; /* 文字颜色为白色 */
+            font-size: 18px; /* 增加字体大小 */
+        }
+
+        .comment-content {
+            color: #ffffff; /* 文字颜色为白色 */
+            font-size: 14px; /* 增加字体大小 */
+        }
+
+        /* 用户信息的字体优化 */
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-info .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%; /* 圆形头像 */
+            margin-right: 10px;
+        }
+
+        .user-info .username {
+            color: #ffffff; /* 文字颜色为白色 */
+            font-size: 12px; /* 增加字体大小 */
+        }
+
+        .user-info .create-time {
+            color: rgba(255, 255, 255, 0.7); /* 半透明的白色 */
+            font-size: 12px; /* 增加字体大小 */
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
 <div class="row" style="margin-top: 20px;">
     <div class="col"></div>
-    <div class="col-10" style="background-color: #fff;padding: 20px;">
-        <h3 class="page-title">{{question.title}}</h3>
+    <div class="col-10">
+        <h3 class="page-title">{{ question.title }}</h3>
         <p class="question-info">
-            <span>作者：{{question.author.username}}</span>
-            <span>时间：{{question.create_time}}</span>
+            <span>作者：{{ question.author.username }}</span>
+            <span>时间：{{ question.create_time }}</span>
         </p>
         <hr>
-        <p class="question-content">{{question.content}}</p>
+        <p class="question-content">{{ question.content }}</p>
         <hr>
-        <h4 class="comment-group-title">评论（{{question.answers|length}}）：</h4>
-        <form action="{{url_for('qa.publish_answer') }}" method="post">
+        <h4 class="comment-group-title">评论（{{ question.answers|length }}）：</h4>
+        <form action="{{ url_for('qa.publish_answer') }}" method="post">
             <div class="form-group">
                 <input type="text" placeholder="请填写评论" name="content" class="form-control">
                 <input type="hidden" name="question_id" value="{{ question.id }}">
@@ -33,16 +123,14 @@
             <li>
                 <div class="user-info">
                     <img class="avatar" src="{{ url_for('static', filename='image/avatar.jpg') }}" alt="">
-                    <span class="username">{{answer.author.username}}</span>
-                    <span class="create-time">{{answer.create_time}}</span>
+                    <span class="username">{{ answer.author.username }}</span>
+                    <span class="create-time">{{ answer.create_time }}</span>
                 </div>
-                <p class="comment-content">{{answer.content}}</p>
+                <p class="comment-content">{{ answer.content }}</p>
             </li>
-            {%endfor%}
-
+            {% endfor %}
         </ul>
     </div>
     <div class="col"></div>
 </div>
 {% endblock %}
-

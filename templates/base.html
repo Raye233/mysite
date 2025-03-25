@@ -17,7 +17,17 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- 添加视频背景 -->
+    <div class="video-container">
+        <video class="video-background" autoplay muted loop>
+            <source src="{{ url_for('static', filename='videos/background.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    {#    <!>#}
+    <div class="video-overlay"></div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
         <div class="container">
             <a class="navbar-brand" href="/">问答</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

@@ -2,7 +2,52 @@
 
 {% block title%}登录{%endblock%}
 
-{% block head%}{% endblock%}
+{% block head%}
+
+ <style>
+        /* 全局字体优化 */
+        body {
+            font-family: Arial, sans-serif; /* 使用无衬线字体 */
+            color: #ffffff; /* 设置全局字体颜色为白色 */
+            background-color: #000000; /* 设置全局背景颜色为黑色 */
+        }
+
+        /* 表单和文本框的字体优化 */
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.2); /* 半透明的白色背景 */
+            border-color: rgba(255, 255, 255, 0.5); /* 半透明的白色边框 */
+            color: #ffffff; /* 文字颜色为白色 */
+            font-size: 14px; /* 增加字体大小 */
+            line-height: 1.5; /* 增加行高 */
+        }
+
+        /* 表单标签的字体优化 */
+        label {
+            color: #ffffff; /* 文字颜色为白色 */
+            font-size: 18px; /* 增加字体大小 */
+        }
+
+        /* 按钮的字体优化 */
+        .btn {
+            background-color: #007bff; /* 按钮背景颜色 */
+            border-color: #007bff; /* 按钮边框颜色 */
+            color: #ffffff; /* 文字颜色为白色 */
+            font-size: 14px; /* 增加字体大小 */
+            line-height: 1.5; /* 增加行高 */
+        }
+
+        .btn:hover {
+            background-color: #0056b3; /* 按钮悬停背景颜色 */
+            border-color: #0056b3; /* 按钮悬停边框颜色 */
+        }
+
+        .form-group {
+            margin-bottom: 20px; /* 增加表单元素之间的间距 */
+        }
+    </style>
+
+{% endblock %}
+
 
 {%block body%}
  <div class="row mt-4">

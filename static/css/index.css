@@ -1,9 +1,11 @@
 .question-ul li{
-    padding: 10px;
+    padding: 20px;
     overflow: hidden;
     display: flex;
-    background-color: #fff;
-    border-bottom:1px solid #eee;
+    background-color: rgba(255, 255, 255, 0.2);
+    /*border-bottom:1px solid #eee;*/
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #ffffff; /* 文字颜色为白色 */
 }
 .side-question{
     flex-basis: 38px;
@@ -24,16 +26,16 @@
 
 .question-title a{
     color: #259;
-    font-size:14px;
+    font-size:18px;
     font-weight: 900;
 }
 .question-author{
-    font-size: 12px;
+    font-size: 16px;
     margin-top: 5px;
 }
 .question-content{
     margin-top: 5px;
-    font-size:12px;
+    font-size:14px;
 }
 .question-detail{
     text-align: right;
