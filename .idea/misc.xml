@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Black">
+    <option name="sdkName" value="mysite1" />
+  </component>
+  <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$PROJECT_DIR$/app01/migrations/0001_initial.py" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="mysite1" project-jdk-type="Python SDK" />
+</project>
