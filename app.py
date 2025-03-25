@@ -6,9 +6,11 @@ from models import UserModel
 from blueprints.qa import bp as qa_bp
 from blueprints.auth import bp as auth_bp
 from blueprints.profile import bp as profile_bp
+import logging
 
 app = Flask(__name__)
 app.config.from_object(config)
+logging.basicConfig(level=logging.WARNING)
 
 db.init_app(app)
 mail.init_app(app)

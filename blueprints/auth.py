@@ -4,15 +4,12 @@ from flask import request
 from exts import mail, db
 from flask_mail import Message
 import random
-import redis
 from models import EmailCaptchaModel, UserModel
 from .forms import RegistrationForm, LoginForm
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from extensions.redis_captcha import *
 # /auth
 bp = Blueprint("auth", __name__, url_prefix='/auth')
-redis_conn = redis.Redis(host='localhost', port=6379)
-
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -39,6 +36,44 @@ def login():
             return redirect(url_for('auth.login'))
 
 
+#  通过mysql存储验证码并比对
+# @bp.route('/captcha/email')
+# def get_email_captcha():
+#     email = request.args.get("email")
+#     captcha = random.randint(1000, 9999)
+#     message = Message(subject="注册验证码", recipients=[email], body=f"您的验证码是:{captcha}")
+#     mail.send(message)
+#     email_captcha = EmailCaptchaModel(email=email, captcha=captcha)
+#     db.session.add(email_captcha)
+#     db.session.commit()
+#     return jsonify({"code": 200, "message": "", "data": None})
+
+# @bp.route('/register', methods=['GET', 'POST'])
+# def register():
+#     if request.method == 'GET':
+#         return render_template("register.html")
+#     else:
+#         form = RegistrationForm(request.form)
+#         if form.validate():
+#             email = form.email.data
+#             username = form.username.data
+#             password = form.password.data
+#             user = UserModel(email=email, username=username, password=generate_password_hash(password))
+#             db.session.add(user)
+#             db.session.commit()
+#             return redirect(url_for('auth.login'))
+#         else:
+#             print(form.errors)
+#             return redirect(url_for('auth.register'))
+
+@bp.route('/captcha/email')
+def get_email_captcha():
+    email = request.args.get("email")
+    captcha = generate_captcha(email)
+    message = Message(subject="注册验证码", recipients=[email], body=f"您的验证码是:{captcha}")
+    mail.send(message)
+    return jsonify({"code": 200, "message": "", "data": None})
+
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'GET':
@@ -57,21 +92,11 @@ def register():
             print(form.errors)
             return redirect(url_for('auth.register'))
 
+
 @bp.route('/logout')
 def logout():
     session.clear()
     return redirect('/')
-
-@bp.route('/captcha/email')
-def get_email_captcha():
-    email = request.args.get("email")
-    captcha = random.randint(1000, 9999)
-    message = Message(subject="绳网注册验证码", recipients=[email], body=f"您的验证码是:{captcha}")
-    mail.send(message)
-    email_captcha = EmailCaptchaModel(email=email, captcha=captcha)
-    db.session.add(email_captcha)
-    db.session.commit()
-    return jsonify({"code": 200, "message": "", "data": None})
 
 
 @bp.route('/mail/test')

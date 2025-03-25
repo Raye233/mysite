@@ -1,11 +1,10 @@
 from functools import wraps
-
 import wtforms
 from pyexpat.errors import messages
 from redis.commands.search import field
 from wtforms.validators import Email, Length, EqualTo, InputRequired
 from models import UserModel, EmailCaptchaModel
-
+from extensions.redis_captcha import *
 
 class RegistrationForm(wtforms.Form):
     email = wtforms.StringField(validators=[Email(message="邮箱格式错误!")])
@@ -23,12 +22,20 @@ class RegistrationForm(wtforms.Form):
             raise wtforms.ValidationError(message="该邮箱已经被注册!")
 
     # 2， 验证码是否正确
+    # def validate_captcha(self, field):
+    #     captcha = field.data
+    #     email = self.email.data
+    #     captcha_model = EmailCaptchaModel.query.filter_by(email=email, captcha=captcha).first()
+    #     if not captcha_model:
+    #         raise wtforms.ValidationError(message="邮箱或验证码错误!")
+
     def validate_captcha(self, field):
         captcha = field.data
         email = self.email.data
-        captcha_model = EmailCaptchaModel.query.filter_by(email=email, captcha=captcha).first()
-        if not captcha_model:
+        print(captcha)
+        if not verify_captcha(email, captcha):
             raise wtforms.ValidationError(message="邮箱或验证码错误!")
+
 
 class LoginForm(wtforms.Form):
     email = wtforms.StringField(validators=[Email(message="邮箱格式错误!")])
