@@ -1,0 +1,80 @@
+/* 不透明的白色覆盖层 */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    background-color: #ffffff; /* 不透明的白色背景 */
+    z-index: -1; /* 确保覆盖层在视频上方 */
+}
+
+/* 个人信息容器 */
+.profile-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 头像样式 */
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 20px;
+}
+
+/* 表单和文本框的字体优化 */
+.form-control {
+    background-color: #ffffff; /* 白色背景 */
+    border-color: #cccccc; /* 灰色边框 */
+    color: #000000; /* 文字颜色为黑色 */
+    font-size: 14px; /* 增加字体大小 */
+    line-height: 1.5; /* 增加行高 */
+    width: 100%; /* 设置输入框宽度为100% */
+    max-width: 300px; /* 设置最大宽度 */
+}
+
+/* 表单标签的字体优化 */
+label {
+    color: #000000; /* 文字颜色为黑色 */
+    font-size: 16px; /* 增加字体大小 */
+}
+
+/* 按钮的字体优化 */
+.btn {
+    color: #ffffff; /* 文字颜色为白色 */
+    background-color: #007bff; /* 按钮背景颜色 */
+    font-size: 14px; /* 增加字体大小 */
+    line-height: 1.5; /* 增加行高 */
+}
+
+/* 容器布局 */
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.col-md-4 {
+    margin-bottom: 20px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.list-group-item a {
+    color: #007bff; /* 蓝色链接 */
+    text-decoration: none;
+}
+
+.list-group-item a:hover {
+    text-decoration: underline;
+}

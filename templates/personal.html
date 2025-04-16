@@ -1,11 +1,73 @@
 {% extends "base.html" %}
 
-{% block title%}个人信息{%endblock%}
+{% block title %}个人信息{% endblock %}
 
-{% block head%}{% endblock%}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
 
-{%block body%}
-<div class="row" style="margin-top: 20px;">
-            <span>作者：{{user.username}}</span>
+{% block body %}
+<div class="overlay"></div> <!-- 添加不透明的白色覆盖层 -->
+<div class="profile-container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">个人信息</h5>
+                    <img src="{{ user.avatar or url_for('static', filename='images/default_avatar.jpg') }}" alt="头像" class="profile-avatar">
+                    <p class="card-text">昵称：{{ user.username }}</p>
+                    <form action="{{ url_for('profile.user', user_id=user.id) }}" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label>头像</label>
+                            <div class="custom-file-upload">
+                                <input type="file" id="avatar" name="avatar" style="display: none;"> <!-- 隐藏默认的文件输入框 -->
+                                <button type="button" class="btn btn-primary"> 选择文件 </button> <!-- 自定义按钮 -->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">昵称</label>
+                            <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">密码</label>
+                            <input type="password" class="form-control" id="password" name="password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </form>
+                </div>
+            </div>
         </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">我的提问</h5>
+                    <p class="card-text">该用户最近的提问</p>
+                    <ul class="list-group">
+                        {% for question in user.questions %}
+                            <li class="list-group-item">
+                                <a href="{{ url_for('qa.qa_detail', qa_id=question.id) }}" class="text-primary">{{ question.title }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">我的回答</h5>
+                    <p class="card-text">该用户最近的回答</p>
+                    <ul class="list-group">
+                        {% for answer in user.answers %}
+                            <li class="list-group-item">
+                                <a href="{{ url_for('qa.qa_detail', qa_id=answer.question.id) }}" class="text-primary">{{ answer.content }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
 {% endblock %}

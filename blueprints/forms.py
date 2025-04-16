@@ -48,3 +48,9 @@ class QuestionForm(wtforms.Form):
 class AnswerForm(wtforms.Form):
     content = wtforms.StringField(validators=[Length(min=3, message="内容格式错误!")])
     question_id = wtforms.IntegerField(validators=[InputRequired(message="必须传入问题id!")])
+
+class ProfileForm(wtforms.Form):
+    nickname = wtforms.StringField(validators=[Length(min=3, message="昵称格式错误!")])
+    age = wtforms.StringField(validators=[Length(min=0, max=2, message="年龄格式错误!")])
+    area = wtforms.StringField(validators=[Length(min=0, max=20, message="地区格式错误!")])
+    self_introduction = content = wtforms.StringField(validators=[Length(min=3, message="内容格式错误!")])

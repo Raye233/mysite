@@ -15,16 +15,18 @@
     {% block head %}{% endblock %}
 <!--    标题自定义-->
 </head>
-
-<body>
     <!-- 添加视频背景 -->
     <div class="video-container">
-        <video class="video-background" preload="auto" autoplay muted loop>
+        <video class="video-background" preload="auto" autoplay muted loop id="background-video">
             <source src="{{ url_for('static', filename='videos/background.mp4') }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
     </div>
     {#    <!>#}
+<script>
+    const video = document.getElementById('background-video');
+    video.playbackRate = 0.8;
+</script>
     <div class="video-overlay"></div>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
@@ -35,10 +37,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item {% if request.endpoint == 'qa.index' %}active{% endif %}">
                         <a class="nav-link" href="/">首页 <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {% if request.endpoint == 'qa.publish_question' %}active{% endif %}">
                         <a class="nav-link" href="{{ url_for('qa.publish_question')}}">发布问答</a>
                     </li>
                     <li class="nav-item ml-2">
@@ -51,8 +53,8 @@
 
                 <ul class="navbar-nav">
                     {% if user %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('profile.user') }}">{{user.username}}</a>
+                        <li class="nav-item {% if request.endpoint == 'profile.user' %}active{% endif %}">
+                            <a class="nav-link" href="{{ url_for('profile.user', user_id=user.id) }}">{{user.username}}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{url_for('auth.logout')}}">退出登录</a>

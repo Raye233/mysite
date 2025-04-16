@@ -32,3 +32,6 @@ body{
     background-color: rgba(0, 0, 0, 0.7); /* 半透明黑色覆盖层 */
     z-index: -1; /* 确保覆盖层在内容下方 */
 }
+.publish-question-title{
+    color: white;
+}

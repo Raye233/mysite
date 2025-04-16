@@ -15,3 +15,5 @@ MAIL_USERNAME = '1636985199@qq.com'
 MAIL_PASSWORD = 'rnmunrqscustddfd'
 MAIL_DEFAULT_SENDER = '1636985199@qq.com'
 
+UPLOAD_FOLDER = 'static/uploads/'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
