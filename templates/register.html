@@ -45,6 +45,14 @@
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">立即注册</button>
                 </form>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                     {% set first_message = messages[0] %}
+                    <ul class="flashes">
+                        <li class="{{ first_message[0] }}">{{ first_message[1] }}</li>
+                    </ul>
+                    {% endif %}
+                {% endwith %}
             </div>
             <div class="col"></div>
         </div>

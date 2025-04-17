@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}找回密码{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/retrieve.css') }}">
+    <script src="{{ url_for('static', filename='jquery/jquery.3.6.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/retrieve.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div id="success-message" style="display: center;">
+    </div>
+<div class="row mt-4">
+    <div class="col"></div>
+    <div class="col">
+        <form method="POST">
+            <div class="form-group">
+                <label for="exampleInputEmail1">邮箱</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+                <button type="button" class="btn btn-secondary btn-sm" id="captcha-btn">发送验证码</button>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">新密码</label>
+                <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputVerificationCode1">验证码</label>
+                <input type="text" name="captcha" class="form-control" id="exampleInputVerificationCode1">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">重置密码</button>
+            </div>
+        </form>
+    </div>
+    <div class="col"></div>
+</div>
+{% endblock %}

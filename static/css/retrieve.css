@@ -20,14 +20,28 @@ label {
     font-size: 18px; /* 增加字体大小 */
 }
 
-/* 小提示文本的字体优化 */
-.form-text {
-    color: rgba(255, 255, 255, 0.7); /* 半透明的白色 */
-    font-size: 14px; /* 增加字体大小 */
-}
-
 /* 按钮的字体优化 */
 .btn {
+    margin-top: 8px;
+    background-color: #007bff; /* 按钮背景颜色 */
+    border-color: #007bff; /* 按钮边框颜色 */
+    color: #ffffff; /* 文字颜色为白色 */
+    font-size: 14px; /* 增加字体大小 */
+    line-height: 1.5; /* 增加行高 */
+}
+
+.btn:hover {
+    background-color: #0056b3; /* 按钮悬停背景颜色 */
+    border-color: #0056b3; /* 按钮悬停边框颜色 */
+}
+
+/* 表单组的间距 */
+.form-group {
+    margin-bottom: 20px; /* 增加表单元素之间的间距 */
+}
+
+/* 验证码按钮的字体优化 */
+#captcha-btn {
     color: #ffffff; /* 文字颜色为白色 */
     font-size: 14px; /* 增加字体大小 */
     line-height: 1.5; /* 增加行高 */
@@ -47,13 +61,6 @@ label {
     font-weight: bold;
     color: #3c763d;
     display: none; /* 默认隐藏 */
-    font-size: 14px; /* 增加字体大小 */
-    line-height: 1.5; /* 增加行高 */
-}
-
-/* 验证码按钮的字体优化 */
-#captcha-btn {
-    color: #ffffff; /* 文字颜色为白色 */
     font-size: 14px; /* 增加字体大小 */
     line-height: 1.5; /* 增加行高 */
 }

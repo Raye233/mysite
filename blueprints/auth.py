@@ -1,11 +1,11 @@
-from flask import Blueprint, render_template, jsonify, redirect, url_for, request, session
+from flask import Blueprint, render_template, jsonify, redirect, url_for, request, session, flash
 from pyexpat.errors import messages
 from flask import request
 from exts import mail, db
 from flask_mail import Message
 import random
 from models import EmailCaptchaModel, UserModel
-from .forms import RegistrationForm, LoginForm
+from .forms import RegistrationForm, LoginForm, RetrieveForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from extensions.redis_captcha import *
 # /auth
@@ -22,6 +22,7 @@ def login():
             password = form.password.data
             user = UserModel.query.filter_by(email=email).first()
             if not user:
+                flash('该邮箱未注册。', 'error')
                 print("邮箱在数据中不存在!")
                 return redirect(url_for('auth.login'))
             if check_password_hash(user.password, password):
@@ -29,6 +30,7 @@ def login():
                 session['user_id'] = user.id
                 return redirect("/")
             else:
+                flash('密码错误，请重试。', 'error')
                 print("密码错误!")
                 return redirect(url_for('auth.login'))
         else:
@@ -70,7 +72,7 @@ def login():
 def get_email_captcha():
     email = request.args.get("email")
     captcha = generate_captcha(email)
-    message = Message(subject="注册验证码", recipients=[email], body=f"您的验证码是:{captcha}")
+    message = Message(subject="邮箱验证码", recipients=[email], body=f"您的验证码是:{captcha}")
     mail.send(message)
     return jsonify({"code": 200, "message": "", "data": None})
 
@@ -89,8 +91,26 @@ def register():
             db.session.commit()
             return redirect(url_for('auth.login'))
         else:
+            flash('信息填写不一致或错误，请重试。', 'error')
             print(form.errors)
             return redirect(url_for('auth.register'))
+
+@bp.route('/retrieve', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'GET':
+        return render_template('retrieve.html')
+    else:
+        form = RetrieveForm(request.form)
+        if form.validate():
+            email = form.email.data
+            password = form.password.data
+            user = UserModel.query.filter_by(email=email).first()
+            user.password = generate_password_hash(password)
+            db.session.commit()
+            return redirect(url_for('auth.login'))
+        else:
+            print(form.errors)
+            return redirect(url_for('auth.forgot_password'))
 
 
 @bp.route('/logout')

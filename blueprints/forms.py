@@ -15,7 +15,7 @@ class RegistrationForm(wtforms.Form):
 
     #  自定义验证
     # 1， 邮箱是否已经被注册
-    def validate_email(self, field):
+    def validate_email(self, field):  # validate_xxxx为固定写法
         email = field.data
         user = UserModel.query.filter_by(email=email).first()
         if user:
@@ -54,3 +54,15 @@ class ProfileForm(wtforms.Form):
     age = wtforms.StringField(validators=[Length(min=0, max=2, message="年龄格式错误!")])
     area = wtforms.StringField(validators=[Length(min=0, max=20, message="地区格式错误!")])
     self_introduction = content = wtforms.StringField(validators=[Length(min=3, message="内容格式错误!")])
+
+class RetrieveForm(wtforms.Form):
+    email = wtforms.StringField(validators=[Email(message="邮箱格式错误!")])
+    captcha = wtforms.StringField(validators=[Length(min=4, max=4, message="验证码格式错误!")])
+    password = wtforms.StringField(validators=[Length(min=6, max=20, message="密码格式错误!")])
+
+    def validate_captcha(self, field):
+        captcha = field.data
+        email = self.email.data
+        print(captcha)
+        if not verify_captcha(email, captcha):
+            raise wtforms.ValidationError(message="邮箱或验证码错误!")
