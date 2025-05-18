@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}
+题单
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/problemset.css') }}">
+{#<script src="{{ url_for('static', filename='js/problemset.js') }}"></script>#}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 筛选栏显示/隐藏
+    document.getElementById('toggle-filters').addEventListener('click', function() {
+        const filters = document.getElementById('filters');
+        const computedStyle = window.getComputedStyle(filters); // 获取计算后的样式
+        const isHidden = computedStyle.display === 'none';       // 正确判断是否隐藏
+
+        // 切换显示状态
+        filters.style.display = isHidden ? 'block' : 'none';
+
+        // 更新按钮文本
+        this.innerHTML = isHidden
+            ? '<i class="fas fa-filter"></i> 隐藏筛选'
+            : '<i class="fas fa-filter"></i> 显示筛选';
+    });
+
+    // 重置筛选按钮（保持不变）
+    document.getElementById('reset-filters').addEventListener('click', function() {
+        window.location.href = "{{ url_for('oj.problemset') }}";
+    });
+});
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% endblock %}
+
+{% block body %}
+<div class="problemset-container">
+    <button type="button" class="btn btn-sm btn-info" id="toggle-filters">
+        <i class="fas fa-filter"></i> 显示筛选
+    </button>
+    <div class="filters" id="filters">
+        <form method="GET" action="{{ url_for('oj.problemset', page_id=1) }}">
+            <div class="form-group">
+                <label for="difficulty-filter">难度</label>
+                <select name="difficulty" id="difficulty-filter" class="form-control">
+                    <option value="">默认</option>
+                    <option value="easy" {% if difficulty == 'easy' %}selected{% endif %}>简单</option>
+                    <option value="medium" {% if difficulty == 'medium' %}selected{% endif %}>中等</option>
+                    <option value="hard" {% if difficulty == 'hard' %}selected{% endif %}>困难</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="status-filter">状态</label>
+                <select name="status" id="status-filter" class="form-control">
+                    <option value="">默认</option>
+                    <option value="untried" {% if status == 'untried' %}selected{% endif %}>未尝试</option>
+                    <option value="attempted" {% if status == 'attempted' %}selected{% endif %}>尝试过</option>
+                    <option value="solved" {% if status == 'solved' %}selected{% endif %}>已解决</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">筛选</button>
+            <button type="button" class="btn btn-secondary" id="reset-filters">还原默认设置</button>
+        </form>
+    </div>
+    <div class="problem-list">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th onclick="window.location.href='{{ url_for('oj.problemset', page_id=1, sort='id', difficulty=difficulty, status=status) }}'">
+                        题目编号
+                    </th>
+                    <th>题目名称</th>
+                    <th>难度</th>
+                    <th>状态</th>
+                    <th onclick="window.location.href='{{ url_for('oj.problemset', page_id=1, sort='pass_rate', difficulty=difficulty, status=status) }}'">
+                        通过率
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for problem in problems %}
+                <tr>
+                    <td>{{ problem.id }}</td>
+                    <td><a href="{{ url_for('oj.problem_description', problem_id=problem.id) }}">{{ problem.title }}</a></td>
+                    <td>{{ problem.difficulty }}</td>
+                    <td>{{ problem.status }}</td>
+                    <td>{{ problem.pass_rate }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+ <div class="pagination">
+    {% if current_page > 1 %}
+        <a href="{{ url_for('oj.problemset', page_id=current_page-1, difficulty=difficulty, status=status, sort=sort) }}"
+           class="page-link">上一页</a>
+    {% else %}
+        <span class="page-link disabled">上一页</span>
+    {% endif %}
+
+    <span class="current-page">第 {{ current_page }} 页 / 共 {{ total_pages }} 页</span>
+
+    {% if current_page < total_pages %}
+        <a href="{{ url_for('oj.problemset', page_id=current_page+1, difficulty=difficulty, status=status, sort=sort) }}"
+           class="page-link">下一页</a>
+    {% else %}
+        <span class="page-link disabled">下一页</span>
+    {% endif %}
+</div>
+{% endblock %}

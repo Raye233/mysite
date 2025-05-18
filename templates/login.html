@@ -4,6 +4,15 @@
 
 {% block head%}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const next = urlParams.get('next');
+            if (next) {
+                flash("您需要登录才能访问该页面！", "warning");
+            }
+        });
+    </script>
 {% endblock %}
 
 

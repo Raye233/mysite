@@ -17,3 +17,8 @@ MAIL_DEFAULT_SENDER = '1636985199@qq.com'
 
 UPLOAD_FOLDER = 'static/uploads/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+# Redis 配置
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = 6379
+REDIS_DB = 0

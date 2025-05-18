@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>题目详情</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/editor/editor.main.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/problem_description.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="problem-info">
+            <div class="navigation">
+                <button id="return-list" class="nav-button">返回题单</button>
+                <button id="prev-problem" class="nav-button" disabled>上一题</button>
+                <button id="next-problem" class="nav-button">下一题</button>
+            </div>
+           <h1 id="problem-title">题目标题</h1>
+            <p><strong>难度：</strong><span id="problem-difficulty" class="difficulty">简单</span></p>
+            <p><strong>状态：</strong><span id="problem-status" class="status-untried">未尝试</span></p>
+            <p><strong>通过率：</strong><span id="problem-pass-rate">0</span>%</p>
+            <h2>题目描述</h2>
+            <p id="problem-description">题目描述内容</p>
+        </div>
+        <div class="editor-container">
+            <div id="editor">// Your code here</div>
+            <button id="submit-button" onclick="submitCode()">
+                <span id="submit-text">Submit</span>
+                 <div id="submit-spinner" class="hidden">
+                <div class="spinner"></div>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js"></script>
+    <script src="{{ url_for('static', filename='js/problem_description.js') }}"></script>
+</body>
+</html>

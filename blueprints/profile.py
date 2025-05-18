@@ -5,7 +5,7 @@ from models import UserModel, QuestionModel, AnswerModel
 from exts import db
 from werkzeug.utils import secure_filename
 from decorators import login_required
-
+from werkzeug.security import generate_password_hash, check_password_hash
 bp = Blueprint('profile', __name__, url_prefix='/profile')
 
 def allowed_file(filename):
@@ -31,7 +31,7 @@ def user(user_id):
         user.username = request.form['username']
         password = request.form['password']
         if password:
-            pass
+            user.password = generate_password_hash(password)
         db.session.commit()
         flash("个人信息已更新")
         return redirect(url_for('profile.user', user_id=user_id))

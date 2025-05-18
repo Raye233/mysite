@@ -1,13 +1,11 @@
-from flask import Blueprint, render_template, jsonify, redirect, url_for, request, session, flash
-from pyexpat.errors import messages
+from flask import Blueprint, render_template, jsonify, redirect, url_for, session, flash
 from flask import request
 from exts import mail, db
 from flask_mail import Message
-import random
-from models import EmailCaptchaModel, UserModel
+from models import UserModel
 from .forms import RegistrationForm, LoginForm, RetrieveForm
 from werkzeug.security import generate_password_hash, check_password_hash
-from extensions.redis_captcha import *
+from redis_captcha import *
 # /auth
 bp = Blueprint("auth", __name__, url_prefix='/auth')
 
@@ -28,6 +26,7 @@ def login():
             if check_password_hash(user.password, password):
                 #  flask中的session,是经过加密后存储在session中的
                 session['user_id'] = user.id
+                flash("登录成功", 'success')
                 return redirect("/")
             else:
                 flash('密码错误，请重试。', 'error')
